@@ -17,8 +17,8 @@ if loadMethod == 0:
 	bankOverride = 1
 
 	numScenes = op.DATABASE.fetch('NUM_CLIP_SCENES')
-	numChans = op.DATABASE.fetch('NUM_CLIP_CHAN')
-	numClips = numScenes * numChans
+	numLanes = op.DATABASE.fetch('NUM_CLIP_LANES')
+	numClips = numScenes * numLanes
 
 	for r in paths.rows()[1:]:
 		if folder != r[0].val:
