@@ -191,13 +191,15 @@ class ManagePluginsExt:
 
 					print('skip:', pluginName)
 
-	def Removeallplugins(self):
+	def Removeallplugins(self, confirmFirst = True):
 		print('DeleteAllPlugins')
-
-		confirm = ui.messageBox(	'Remove all Plugins from Project', 
-									'Are you sure? This will remove all plugins from ' + self.ownerComp.name, 
-									buttons = ['Cancel', 'Removal All',])
-
+		
+		if confirmFirst:
+			confirm = ui.messageBox(	'Remove all Plugins from Project', 
+										'Are you sure? This will remove all plugins from ' + self.ownerComp.name, 
+										buttons = ['Cancel', 'Removal All',])
+		else:
+			confirm = 1 
 
 		if confirm == 1:
 
