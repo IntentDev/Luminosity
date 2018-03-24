@@ -6,13 +6,19 @@ Front-end for TouchDesigner aimed at providing operators with an efficient inter
 
 1. Install TouchDesigner099
 2. Open Luminosity/project/Luminosity_0_8.toe
+3. See Luminostiy/docs for documentation
+
+https://www.youtube.com/channel/UCAz7z2-F_VW_u7_qLPHwk8A
+
+Sunday March 25, 2018 21:00 UTC
+https://www.youtube.com/channel/UCAz7z2-F_VW_u7_qLPHwk8A/live
 
 
 ### Prerequisites
 
 TouchDesigner099 Official Build 2018.16620 or newer
 
-There is a bug in the new experimental Touchdesigner builds where the list COMP is not cooking when it has parameters that have dependencies (expressions) that change.
+Note: There is a bug in the new experimental Touchdesigner builds where the list COMP is not cooking when it has parameters that have dependencies (expressions) that change. Various radio buttons that have a dynamic number of buttons are not updating. It is recommended to use the official Touchdesigner build at this time.
 
 
 ## Contributors
