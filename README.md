@@ -2,6 +2,10 @@
 
 Front-end for TouchDesigner aimed at providing operators with an efficient interface to perform, control, and distribute realtime media while retaining the open-ended programmability of TouchDesigner.
 
+
+For now please use this http://derivative.ca/Forum/viewtopic.php?f=22&t=11692 for all questions relating to operation of Luminosity and use the Github Issues for submitting bugs. 
+
+
 ## Getting Started
 
 1. Install TouchDesigner099
