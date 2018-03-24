@@ -2,10 +2,10 @@
 
 Front-end for TouchDesigner aimed at providing operators with an efficient interface to perform, control, and distribute realtime media while retaining the open-ended programmability of TouchDesigner.
 
-## Getting Starte
+## Getting Started
 
 1. Install TouchDesigner099
-2. Open Luminosity.toe
+2. Open Luminosity/project/Luminosity_0_8.toe
 
 
 ### Prerequisites
