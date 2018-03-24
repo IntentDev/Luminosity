@@ -84,6 +84,7 @@ def Init():
 	CommandProcSetAddresses()
 	op.CUE_PLAYER.EditMode = False
 	op.LM.store('VIEW_PRESET_CONTROLS', 0)
+	InitBrowser()
 	
 	if me.fetch('MASTER_MODE') == 0 or op.DATABASE.fetch('PREVIEW_ON'):
 	
