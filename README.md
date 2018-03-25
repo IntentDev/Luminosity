@@ -1,4 +1,4 @@
-# Luminosity 
+# Luminosity
 
 Front-end for TouchDesigner aimed at providing operators with an efficient interface to perform, control, and distribute realtime media while retaining the open-ended programmability of TouchDesigner.
 
