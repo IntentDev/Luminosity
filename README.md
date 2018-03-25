@@ -27,7 +27,7 @@ Note: There is a bug in the new experimental Touchdesigner builds where the list
 
 ## Contributors
 
-* **Keith Lostracco** (https://www.IntentDev.io)
+* **Keith Lostracco** (http://www.IntentDev.io)
 * **Peter Walker** 
 * **Matthew Wachter** 
 
