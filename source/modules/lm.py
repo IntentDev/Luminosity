@@ -124,7 +124,7 @@ class Timecode():
 		secs = int(timecode[2])
 		frames = int(timecode[3])
 
-		print(hours, mins, secs, frames)
+		#print(hours, mins, secs, frames)
 		seconds = hours * 60 * 60 + mins * 60 + secs + frames / rate
 
 		frame = int(seconds * rate)

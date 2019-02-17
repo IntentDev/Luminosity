@@ -24,93 +24,97 @@ class PresetsExt(object):
 	def __init__(self, ownerComp):
 		# The component to which this extension is attached
 		self.ownerComp = ownerComp
-		print('Intializing ext:', self.ownerComp)
+		#print('Intializing ext:', self.ownerComp)
+		try:
 
-		self.callbacks = self.ownerComp.op('callbacks').module
-		self.ParNames = [r[0].val for r in self.ParsOP.rows()[1:]]
-		self.ParAttr = [c[0].val for c in self.ParsOP.cols()[1:]]
-		self.NumPars = len(self.ParNames)
-		self.PresetList = self.PresetControls.op('presetList')
-		self.BankList = self.PresetControls.op('bankList')
-		self.PresetRadio = self.Controls.op('presets/presetRadio')
-		self.filter = self.ownerComp.op('filter')
-		self.Preset = None	
-		self.PresetIndex = None
-		self.LM = op.LM
-		self.DB = op.DATABASE
-		self.Node = me.fetch('NODE')
-		self.ControlOut = op.CONTROL_OUT
+			self.callbacks = self.ownerComp.op('callbacks').module
+			self.ParNames = [r[0].val for r in self.ParsOP.rows()[1:]]
+			self.ParAttr = [c[0].val for c in self.ParsOP.cols()[1:]]
+			self.NumPars = len(self.ParNames)
+			self.PresetList = self.PresetControls.op('presetList')
+			self.BankList = self.PresetControls.op('bankList')
+			self.PresetRadio = self.Controls.op('presets/presetRadio')
+			self.filter = self.ownerComp.op('filter')
+			self.Preset = None	
+			self.PresetIndex = None
+			self.LM = op.LM
+			self.DB = op.DATABASE
+			self.Node = me.fetch('NODE')
+			self.ControlOut = op.CONTROL_OUT
 
-		self.DefaultBankName = self.ownerComp.fetch('DefaultBankName', 'Preset Bank 1')
-		self.DefaultPresetName = self.ownerComp.fetch('DefaultPresetName', 'Default Preset')
+			self.DefaultBankName = self.ownerComp.fetch('DefaultBankName', 'Preset Bank 1')
+			self.DefaultPresetName = self.ownerComp.fetch('DefaultPresetName', 'Default Preset')
 
-		if len(self.ownerComp.par.Selectbank.menuLabels) > 0:
-			self.BankName = self.ownerComp.par.Selectbank.menuLabels[int(self.ownerComp.par.Selectbank)]	
-		else:
-			self.BankName = self.DefaultBankName
-
-		self.HasAnimation = self.Plugin.HasAnimation
-
-		if self.HasAnimation:		
-			self.AnimActive = self.Plugin.AnimActive
-			self.Animation = self.ownerComp.par.Animationcomp.eval()
-			self.SwitchCrossAnim = self.Animation.op('switchCross')
-		else:
-			self.AnimActive = False
-
-		self.CompPresets = self.Plugin.fetch('CompPresets', {})
-
-		if self.BankName in self.CompPresets.keys():
-
-			self.Presets = self.CompPresets[self.BankName]
-			self.StoreComp.store('CompPresets', self.CompPresets)
-			self.StoreComp.store('CurPresets', self.Presets)
-
-			if 'PresetPars' in self.StoreComp.storage.keys():
-				self.PresetPars = self.StoreComp.fetch('PresetPars')
+			if len(self.ownerComp.par.Selectbank.menuLabels) > 0:
+				self.BankName = self.ownerComp.par.Selectbank.menuLabels[int(self.ownerComp.par.Selectbank)]	
 			else:
-				self.PresetPars = [[parName, True, True] for parName in self.ParNames]
-				self.StoreComp.store('PresetPars', self.PresetPars)
-			
+				self.BankName = self.DefaultBankName
 
-			if len(self.Presets) == 0: 
+			self.HasAnimation = self.Plugin.HasAnimation
 
-				self.InitializeBank()
+			if self.HasAnimation:		
+				self.AnimActive = self.Plugin.AnimActive
+				self.Animation = self.ownerComp.par.Animationcomp.eval()
+				self.SwitchCrossAnim = self.Animation.op('switchCross')
 			else:
-				#print('Init PresetExt')
-				self.GetBankNames(updateControls = False)	
-				try:
-					self.GetPresetNames()
-				except:
-					pass
+				self.AnimActive = False
+
+			self.CompPresets = self.Plugin.fetch('CompPresets', {})
+
+			if self.BankName in self.CompPresets.keys():
+
+				self.Presets = self.CompPresets[self.BankName]
+				self.StoreComp.store('CompPresets', self.CompPresets)
+				self.StoreComp.store('CurPresets', self.Presets)
+
+				if 'PresetPars' in self.StoreComp.storage.keys():
+					self.PresetPars = self.StoreComp.fetch('PresetPars')
+				else:
+					self.PresetPars = [[parName, True, True] for parName in self.ParNames]
+					self.StoreComp.store('PresetPars', self.PresetPars)
 				
+
+				if len(self.Presets) == 0: 
+
+					self.InitializeBank()
+				else:
+					#print('Init PresetExt')
+					self.GetBankNames(updateControls = False)	
+					try:
+						self.GetPresetNames()
+					except:
+						pass
+					
+				
+			elif len(self.CompPresets.keys()) > 0:
+				self.SetBank(self.ownerComp.par.Selectbank.menuLabels[int(self.ownerComp.par.Selectbank)])
+				self.ownerComp.par.Selectbank = 0
+
+			else:
+				self.Initialize()
+
+			self.SetRecallMode()
+			self.SetMorph()
+
+			self.ownerComp.op('filter').cook(force = True)
+
+			for r in runs:
+				if r.group == 'GetAllPresets':
+					r.kill()
 			
-		elif len(self.CompPresets.keys()) > 0:
-			self.SetBank(self.ownerComp.par.Selectbank.menuLabels[int(self.ownerComp.par.Selectbank)])
-			self.ownerComp.par.Selectbank = 0
+			#attr = self.StoreComp.fetch('CompAttr')['attr']
+			#pluginType = attr['type']
 
-		else:
-			self.Initialize()
+			#if pluginType not in ['synth', 'audio', 'movie']:
 
-		self.SetRecallMode()
-		self.SetMorph()
+			if not hasattr(self.Plugin, 'IsClip'):
 
-		self.ownerComp.op('filter').cook(force = True)
+				run("op.CUE_PLAYER.GetAllPresets()", delayFrames = 30, group = 'GetAllPresets') 
 
-		for r in runs:
-			if r.group == 'GetAllPresets':
-				r.kill()
-		
-		#attr = self.StoreComp.fetch('CompAttr')['attr']
-		#pluginType = attr['type']
+			self.LastRecalled = {'bankName': copy.copy(self.BankName), 'presetIndex': copy.copy(self.PresetIndex)}
 
-		#if pluginType not in ['synth', 'audio', 'movie']:
-
-		if not hasattr(self.Plugin, 'IsClip'):
-
-			run("op.CUE_PLAYER.GetAllPresets()", delayFrames = 30, group = 'GetAllPresets') 
-
-		self.LastRecalled = {'bankName': copy.copy(self.BankName), 'presetIndex': copy.copy(self.PresetIndex)}
+		except:
+			pass
 
 	def InitializeBank(self):
 
@@ -190,6 +194,7 @@ class PresetsExt(object):
 		self.StoreComp.store('CompPresets', self.CompPresets)
 		self.StoreComp.store('CurPresets', self.Presets)
 		self.SendPresets()
+		self.Controls.op("presets/presetRadio").par.Numpresets = len(self.PresetNames)
 	
 	def RecallPreset(self, presetIndex, delayFrame = 0):
 		if presetIndex < len(self.Presets):
@@ -270,7 +275,7 @@ class PresetsExt(object):
 		if (self.Node == 'master' and self.DB.fetch('REMOTE_MODE') != 0 and self.PresetIndex != None
 			and self.ownerComp.path != '/Luminosity/database/cuePlayer/cueList/plugin/presets'
 			and remote):
-			print(self.ownerComp)
+			#print(self.ownerComp)
 			op.LM.SendData().SendRecallPreset(self.PresetIndex, self.ownerComp.path)
 
 

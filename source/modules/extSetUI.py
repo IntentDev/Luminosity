@@ -508,9 +508,10 @@ class SetUI(object):
 	def DroplistSet(self, path, value):
 
 		parent = op(path)
-
+		value = int(value)
 		itemTable = parent.op('selectItems')
 		if value < itemTable.numRows:
+			#print(itemTable, value, itemTable.numRows)
 			item = itemTable[value, 0].val
 		else:
 			item = itemTable[0, 0].val

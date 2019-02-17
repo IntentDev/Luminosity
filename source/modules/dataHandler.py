@@ -81,7 +81,7 @@ class SendData(object):
 
 	def SendStorageKey(self, value, name, path):
 
-		print('SendStorageKey', name, path)
+		#print('SendStorageKey', name, path)
 
 		extOP = me.fetch('ROOTPATH')	
 		className = 'SetData'		
@@ -200,7 +200,7 @@ class SetData(object):
 		animCOMP.op('channels').text = mod.tableFunc.SetToType(channels)[0]
 	
 	def SetRecallPreset(self, data, path):
-		print(data, path)
+		#print(data, path)
 		presets = op(path)
 		#presets.Preset = data
 		presets.RecallPreset(data)
