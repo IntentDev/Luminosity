@@ -20,10 +20,7 @@ https://www.youtube.com/channel/UCAz7z2-F_VW_u7_qLPHwk8A/live
 
 ### Prerequisites
 
-TouchDesigner099 Official Build 2018.16620 or newer
-
-Note: There is a bug in the new experimental Touchdesigner builds where the list COMP is not cooking when it has parameters that have dependencies (expressions) that change. Various radio buttons that have a dynamic number of buttons are not updating. It is recommended to use the official Touchdesigner build at this time.
-
+TouchDesigner099 Official Build 2018.27840 or newer
 
 ## Contributors
 
