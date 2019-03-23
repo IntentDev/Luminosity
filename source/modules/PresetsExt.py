@@ -38,9 +38,9 @@ class PresetsExt(object):
 			self.Preset = None	
 			self.PresetIndex = None
 			self.LM = op.LM
+			self.remote = self.LM.op('remote')
 			self.DB = op.DATABASE
 			self.Node = me.fetch('NODE')
-			self.ControlOut = op.CONTROL_OUT
 
 			self.DefaultBankName = self.ownerComp.fetch('DefaultBankName', 'Preset Bank 1')
 			self.DefaultPresetName = self.ownerComp.fetch('DefaultPresetName', 'Default Preset')
@@ -590,31 +590,12 @@ class PresetsExt(object):
 		if self.AnimActive:
 			self.Animation.PresetBlendEnd()
 
-	def SendPresetsOld(self):
-
-		extOP = me.fetch('ROOTPATH')	
-		className = 'SetData'		
-		functionName = 'SetPresets'
-		prepend = extOP +'::'+ className +'::'+ functionName +'::'
-
-		dataOut = op(me.fetch('RELIABLE_UDT'))
-
-		args = [self.ownerComp.path, self.BankName, self.Presets]
-		data = self.CompPresets
-
-		print(sys.getsizeof(str(data)))
-		print(sys.getsizeof(str(args)))
-
-
-		msg = prepend + str(data) +'::'+ str(args)
-		dataOut.send(msg)	
 
 	def SendPresets(self):
 		
 		if self.Node == 'master' and self.DB.fetch('REMOTE_MODE') != 0 and self.PresetIndex != None:
 			args = [self.CompPresets, self.ownerComp.path, self.BankName, self.Presets]
-			#args = [self.CompPresets, self.ownerComp.path, self.BankName, self.StoreComp.fetch('CurPresets')]
-			self.ControlOut.SendUDT('SetData', 'SetPresets', args)
+			self.remote.GetAttr(self.LM, 'SetPresets', args)
 
 
 

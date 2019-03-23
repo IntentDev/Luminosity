@@ -9,6 +9,7 @@ extended component, e.g. op('yourComp').ExtensionMethod()
 from pprint import pprint
 import copy
 LM = op.LM
+REMOTE = LM.op('remote')
 TC = op.LM.Timecode()
 DB = op.DATABASE
 TIME = op.TIME
@@ -547,9 +548,9 @@ class CuePlayerExt:
 
 		self.selectCueFuncs[self.TransportState](cueIndex)
 
-		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0 and hasattr(op.CONTROL_OUT, 'GetAttrRemote'):
+		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0:
 
-			op.CONTROL_OUT.GetAttrRemote(self.ownerComp, 'SelectCue', cueIndex)
+			REMOTE.GetAttr(self.ownerComp, 'SelectCue', cueIndex)
 
 	def SelectCueManualStop(self, cueIndex):	
 		self.ScrubSlider.panel.u = 0	
@@ -1460,8 +1461,8 @@ class CuePlayerExt:
 
 		self.PresetsAnimClipsScrubSetState(state)
 
-		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0 and hasattr(op.CONTROL_OUT, 'GetAttrRemote'):
-			op.CONTROL_OUT.GetAttrRemote(self.ownerComp, 'PlayScrubOn', u, state)
+		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0:
+			REMOTE.GetAttr(self.ownerComp, 'PlayScrubOn', u, state)
 
 	def PlayScrubOff(self, state):
 
@@ -1471,8 +1472,8 @@ class CuePlayerExt:
 
 		self.PresetsAnimClipsScrubSetState(state)
 
-		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0 and hasattr(op.CONTROL_OUT, 'GetAttrRemote'):
-			op.CONTROL_OUT.GetAttrRemote(self.ownerComp, 'PlayScrubOff', state)
+		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0 :
+			REMOTE.GetAttr(self.ownerComp, 'PlayScrubOff', state)
 
 	def SetSecondsCurrent(self, seconds):
 
@@ -1544,8 +1545,8 @@ class CuePlayerExt:
 			self.PresetsAnimationSetPar(cueData, 'cuepoint', frame)
 			self.ClipSetPar(clips, 'cuepoint', frame)
 
-		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0 and hasattr(op.CONTROL_OUT, 'GetAttrRemote'):
-			op.CONTROL_OUT.GetAttrRemote(self.ownerComp, 'PresetsAnimClipsScrub', fraction)
+		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0:
+			REMOTE.GetAttr(self.ownerComp, 'PresetsAnimClipsScrub', fraction)
 
 	def PresetsAnimClipsScrubSetState(self, state):
 
@@ -1754,8 +1755,8 @@ class CuePlayerExt:
 
 		self.AutoUpdate = bool(active * self.Settings['AutoUpdate'] * int(self.EditMode))
 
-		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0 and hasattr(op.CONTROL_OUT, 'SetAttrRemote'):
-			op.CONTROL_OUT.SetAttrRemote(self.ownerComp, 'TransportState', value)
+		if me.fetch('NODE') == 'master' and DB.fetch('REMOTE_MODE') != 0:
+			REMOTE.SetAttr(self.ownerComp, 'TransportState', value)
 
 	@property
 	def PlayState(self):

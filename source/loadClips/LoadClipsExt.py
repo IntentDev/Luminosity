@@ -6,7 +6,7 @@ its attributes with capitalized names can be accessed directly through the
 extended component, e.g. op('yourComp').ExtensionMethod()
 """
 import tableFunc as TF
-import pickle
+import os
 
 class LoadClipsExt:
 	"""
@@ -15,7 +15,8 @@ class LoadClipsExt:
 	def __init__(self, ownerComp):
 		# The component to which this extension is attached
 		self.ownerComp = ownerComp
-		self.UDT_Out = op.CONTROL_OUT.op('reliableUDT')
+		self.lm = op.LM
+		self.remote = self.lm.op('remote')
 		self.LoadMovieComp = self.ownerComp.op('loadMovie')
 		self.LoadAudioComp = self.ownerComp.op('loadAudio')
 		self.DropFolderComp = self.ownerComp.op('dropFolder')
@@ -27,10 +28,10 @@ class LoadClipsExt:
 
 
 	def DropMedia(self, *args):
-
+		#print(args)
 		mediaType = args[5]
 		bank = me.fetch('CUR_BANK')
-		clipUIPath = args[7]
+		clipUIPath = args[-1:][0]
 		clipUI = op(clipUIPath)
 
 		clipPathSplit = clipUIPath.split('/')
@@ -148,7 +149,7 @@ class LoadClipsExt:
 			
 			self.LoadAudio(name, path,mediaType,bank,channel,clip)
 			
-		elif mediaType == '':
+		elif os.path.isdir(args[0]):
 			RootFolder = args[0]
 			rootFolder = self.DropFolderComp.op('rootFolder')
 			rootFolder.par.rootfolder = RootFolder
@@ -156,8 +157,9 @@ class LoadClipsExt:
 			self.DropFolderComp.op('dropFolder').run(bank, channel, clip, mediaType, delayFrames = 1)
 
 
-		if mediaType != '':
+		if mediaType != '' and type(mediaType) != str:
 			
+			print(mediaType)
 			selectUI = clipUI.op('select')
 			if selectUI.panel.state.val == 1:
 
@@ -183,23 +185,7 @@ class LoadClipsExt:
 		data['compPar'] = TF.SetToType(args[8])
 
 
-		className = 'SetData'		
-		functionName = 'RemoteLoadClip' 	
-		functionPath = op.LM.path +'::'+ className +'::'+ functionName
-
-		args = pickle.dumps([data])
-		n = 64000
-		args = [args[i:i + n] for i in range(0, len(args), n)]
-
-		self.UDT_Out.send('CMD_START::' + functionPath, terminator = '')
-
-		i = 0
-		for arg in args:
-
-			self.UDT_Out.sendBytes(arg)
-			i += 1
-
-		self.UDT_Out.send('CMD_END::None')
+		self.remote.GetAttr(self.lm, 'RemoteLoadClip', data)
 
 	def LoadComp(self, *args, local = True):
 
