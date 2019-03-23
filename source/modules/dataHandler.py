@@ -276,7 +276,8 @@ class setMapData:
 class Load(object):
 
 	def __init__(self):
-		return
+		self.lm = op('/Luminosity')
+		self.remote = op('/Luminosity/remote')
 
 	def LoadInsert(self, path, dataSlotPath):
 
@@ -375,15 +376,8 @@ class Load(object):
 		#print(path, dataSlotPath)
 		
 		if me.fetch('NODE') == 'master' and op.DATABASE.fetch('REMOTE_MODE') != 0:
-			extOP = me.fetch('ROOTPATH')
-			className = 'Load'	
-			functionName = 'LoadEffect' 
-			data = path
-			args = [dataSlotPath]
-			msg = extOP +'::'+ className +'::'+ functionName +'::'+ str(data) +'::'+ str(args)
 
-			dataOut = op(me.fetch('RELIABLE_UDT'))
-			dataOut.send(msg, terminator = '')
+			self.remote.GetAttr(self.lm, 'LoadEffect', path, dataSlotPath)
 		
 
 		slot = dataSlotPath[-1:]
