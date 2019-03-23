@@ -194,7 +194,9 @@ class PresetsExt(object):
 		self.StoreComp.store('CompPresets', self.CompPresets)
 		self.StoreComp.store('CurPresets', self.Presets)
 		self.SendPresets()
-		self.Controls.op("presets/presetRadio").par.Numpresets = len(self.PresetNames)
+		#run("args[0].par.Numpresets = args[1]", self.PresetRadio, len(self.PresetNames), 
+		#	delayFrames=1)
+
 	
 	def RecallPreset(self, presetIndex, delayFrame = 0):
 		if presetIndex < len(self.Presets):
@@ -520,6 +522,9 @@ class PresetsExt(object):
 		if self.PresetControls and hasattr(self.PresetControls, 'Presets'):
 
 			if self.PresetControls.Presets == self.ownerComp: 
+
+				#print('Update Preset Controls - Force =', force)	
+				#print(self.PresetControls.IsDisplayed)
 
 				if self.PresetControls.IsDisplayed or force:
 

@@ -92,9 +92,7 @@ class CuePlayerExt:
 
 		self.PrevClipTrigger = None
 
-		self.UDT_Out = self.ownerComp.op('udtOut')
-		#self.UDP_Out = self.ownerComp.op('udpOut')
-		#self.MIDI_Out = self.ownerComp.op('midiOut')
+
 
 	def StoreCue(self, cueIndex, cueName, update = False):
 
