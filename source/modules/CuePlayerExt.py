@@ -1809,6 +1809,12 @@ class CuePlayerExt:
 		self.ownerComp.store('AutoUpdate', tdu.Dependency(value))
 		
 
-
+	@property
+	def CueClips(self):
+		return self.ownerComp.fetch('CueClips', tdu.Dependency([])).val
+		
+	@CueClips.setter
+	def CueClips(self,value):
+		self.ownerComp.store('CueClips', tdu.Dependency(value))
 
 
