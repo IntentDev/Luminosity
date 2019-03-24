@@ -947,6 +947,9 @@ class CuePlayerExt:
 				plugin = clip.op('plugin')
 				attr = plugin.fetch('CompAttr')['attr']
 				clipName = [attr['name'], 'Stop Clip: ClipLane ' + str(lane.digits + 1)][stopClipSwitch]
+				if clipName == '':
+					print(clip)
+					clipName = op.LM.fetch('CUR_BANK') +'/clipLane'+ str(uiClip.digits) + '/' + clip.name
 
 				if plugin.HasPresets:
 					
@@ -1080,6 +1083,9 @@ class CuePlayerExt:
 				plugin = clip.op('plugin')
 				attr = plugin.fetch('CompAttr')['attr']
 				clipName = [attr['name'], 'Stop Clip: ClipLane ' + str(lane.digits + 1)][stopClipSwitch]
+				if clipName == '':
+					print(clip)
+					clipName = op.LM.fetch('CUR_BANK') +'/clipLane'+ str(uiClip.digits) + '/' + clip.name
 
 
 				self.SetNewCueSettings()
