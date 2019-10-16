@@ -6,8 +6,9 @@ its attributes with capitalized names can be accessed directly through the
 extended component, e.g. op('yourComp').ExtensionMethod()
 """
 
-from pprint import pprint
+#from pprint import pprint
 import copy
+import os
 LM = op.LM
 REMOTE = LM.op('remote')
 TC = op.LM.Timecode()
@@ -1035,9 +1036,9 @@ class CuePlayerExt:
 					self.AutoUpdateGetNumPresetsDAT.cook(force = True)
 					self.AutoUpdateGetNumClipsDAT.cook(force = True)
 
-	def DropClipCueList(self, dragItems):
+	def DropCueList(self, dragItems):
 
-		#print(dragItems)
+		print(dragItems)
 
 		if type(dragItems[0]) == buttonCOMP:
 
@@ -1099,6 +1100,24 @@ class CuePlayerExt:
 				#self.CueDropClip(dragItems)
 				op.LM.Delay(delayFrames = 20, fromOP = self.ownerComp).Call(self.ownerComp, 'CueDropClip', dragItems)
 				op.LM.Delay(delayFrames = 22, fromOP = self.ownerComp).Call(self.Presets, 'SendPresets')
+
+		elif type(dragItems[0]) == str:
+
+			self.DropStr(dragItems)
+	
+	def DropStr(self, dragItems):
+
+		pass
+
+	def ParseDropString(self, string):
+		
+		if os.path.isfile(string):
+
+			pass
+
+		elif os.path.isdir(string):
+
+			pass
 
 	def CueDeleteClip(self, clipIndex):
 
