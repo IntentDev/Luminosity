@@ -20,7 +20,7 @@ https://www.youtube.com/channel/UCAz7z2-F_VW_u7_qLPHwk8A/live
 
 ### Prerequisites
 
-TouchDesigner099 Official Build 2018.27840 or newer
+TouchDesigner099 Official Build 2020.22080 or newer
 
 ## Contributors
 
