@@ -1,4 +1,5 @@
 paths = op('paths')
+#print(args)
 loadMethod = ui.messageBox('Load Folder Method', 'Load Media from Folders by:', buttons = ['Folder per Bank', 'Fill All Clips'])
 
 bank = args[0]

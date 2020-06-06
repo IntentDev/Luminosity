@@ -43,7 +43,9 @@ class CompUI(object):
 		listH = 0
 
 		for r in parTable.rows()[1:]:
-			listH += op(self.path + "/" + r[0]).par.h + list.par.alignmargin
+			g = op(self.path + "/" + r[0])
+			if g:
+				listH += g.par.h + list.par.alignmargin
 
 		windowH -= self.ownerComp.op('label').par.h + 2
 		try:

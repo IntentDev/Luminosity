@@ -3,7 +3,8 @@ loadList = me.fetch('LoadList')
 curId = me.fetch('CurId', 0)
 bankOverride = args[0]
 
-
+#import pprint
+#pprint.pprint(loadList)
 if curId < numItems:
 	name = loadList[curId][0]
 	path = loadList[curId][1]
@@ -13,7 +14,7 @@ if curId < numItems:
 	clip = loadList[curId][5]
 	
 	
-	print('MultiLoad', loadList[curId][0])
+	#print('MultiLoad', loadList[curId][0])
 	#print('multiLoad ', name)
 	#n2 = name.split('.')
 	
