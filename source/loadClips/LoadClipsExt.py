@@ -28,15 +28,15 @@ class LoadClipsExt:
 
 
 	def DropMedia(self, *args):
-		#print(args)
+		# print('DropMedia:', args)
 		mediaType = args[5]
 		bank = me.fetch('CUR_BANK')
 		clipUIPath = args[-1:][0]
 		clipUI = op(clipUIPath)
 
 		clipPathSplit = clipUIPath.split('/')
-		channel = clipPathSplit[-2:][0]
-		clip = clipPathSplit[-1:][0]
+		channel = clipPathSplit[-3:][0]
+		clip = clipPathSplit[-2:][0]
 
 		dataClipPath = me.fetch('CLIP_DATA') +'/'+ bank +'/'+ channel +'/'+ clip
 
@@ -121,14 +121,10 @@ class LoadClipsExt:
 				
 				sourceLane = op(sourceClip.parent().path)
 				sourceName = sourceClip.name
-				#destClip = op(op(args[7]).fetch('DataClipPath'))
-				destClip = op.CLIP_DATA.op(me.fetch('CUR_BANK')).op(op(args[7]).parent().name).op(op(args[7]).name)
+				destClip = op.CLIP_DATA.op(me.fetch('CUR_BANK')).op(op(args[7]).parent(2).name).op(op(args[7]).parent().name)
 
 				destLane = op(destClip.parent().path)
 				destName = destClip.name
-
-				#print(sourceClip)
-				#print(destClip)
 				
 				noClip = sourceLane.op('clip1001')
 
@@ -138,7 +134,6 @@ class LoadClipsExt:
 				#from 
 
 				if op(op.LM.fetch('KEYS'))['ctrl', 1] != '1':
-
 					sourceClip.destroy()
 					sourceLane.copy(noClip, name = sourceName)
 
@@ -188,7 +183,7 @@ class LoadClipsExt:
 		self.remote.GetAttr(self.lm, 'RemoteLoadClip', data)
 
 	def LoadComp(self, *args, local = True):
-
+		print(args)
 		if local:
 			name = args[0]
 			path = args[1] #+'/'+ args[0]
@@ -206,7 +201,8 @@ class LoadClipsExt:
 			clip = args[0]['clip']
 
 
-		#print(args)
+		# print('name:', name, '\npath:', path, '\nmediaType:', mediaType, 
+		# 	'\nbank:', bank, '\nlane:', lane, '\nclip:', clip)
 
 		dataClipPath = me.fetch('CLIP_DATA') +'/'+ bank +'/'+ lane +'/'+ clip
 		thumbSelectPath = dataClipPath +'/config/thumb'
